@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Product Specialist| 產品專員作品集</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            bg: '#FDFCFB',        /* 淺米色背景 */
+            text: '#4B3F35',      /* 深咖啡色文字 */
+            title: '#2F2520',     /* 標題加深 */
+            accent: '#C08A8A',    /* 點綴色：髒粉紅 */
+            muted: '#8B8682',     /* 次要資訊灰色 */
+            border: '#E8E2DE'     /* 邊框顏色 */
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Vue 3: 資料驅動視圖 -->
+  <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
+  
+  <!-- 引入 Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+  <style>
+    html { scroll-behavior: smooth; }
+    body { 
+      font-family: 'Inter', "Noto Sans TC", sans-serif; 
+      letter-spacing: 0.02em;
+    }
+    
+    /* 載入動畫 */
+    .fade-in { animation: fadeIn 0.8s ease-out forwards; }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    /* 技能標籤懸停效果 */
+    .skill-tag { transition: all 0.3s ease; }
+    .skill-tag:hover { 
+      background-color: #C08A8A; 
+      color: white; 
+      border-color: #C08A8A; 
+      transform: translateY(-2px);
+    }
+
+    /* 下拉選單動畫 */
+    details summary {
+      list-style: none;
+      cursor: pointer;
+    }
+    details summary::-webkit-details-marker {
+      display: none;
+    }
+    details[open] summary {
+      color: #C08A8A;
+    }
+  </style>
+</head>
+
+<body class="bg-bg text-text antialiased">
+
+<div id="app">
+  <!-- 導覽列 -->
+  <nav class="fixed top-0 w-full bg-bg/80 backdrop-blur-md z-50 border-b border-gray-100">
+    <div class="max-w-4xl mx-auto px-8 h-16 flex items-center justify-between">
+      <a href="/Users/estrella/Desktop/其他/履歷/個人網頁/my resume.html" class="group flex items-center text-accent font-medium text-sm transition-all">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2 transform group-hover:-translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+        </svg>
+        回到上一頁
+      </a>
+      <div class="hidden md:flex space-x-8 text-xs font-bold uppercase tracking-widest">
+        <a href="#order-management" class="hover:text-accent transition">訂單管理</a>
+        <a href="#operations" class="hover:text-accent transition">基本作業</a>
+        <a href="#npi" class="hover:text-accent transition">新產品導入</a>
+        <a href="#skills" class="hover:text-accent transition">使用技能</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="max-w-3xl mx-auto px-6 pt-32 pb-24">
+    
+    <!-- Hero Section -->
+    <section class="mb-24 fade-in">
+     <h1 class="text-4xl md:text-5xl font-bold text-title mb-6 tracking-tight">
+        Product Specialist <span class="text-accent">|</span> 產品專員
+      </h1>
+      <div class="max-w-2xl border-l-2 border-accent/30 pl-8 py-2">
+        負責串聯業務、客戶與研發（R&D）團隊，從產品規格、客製化專案到新產品導入市場，確保產品具備技術可行性、成本競爭力與市場。
+        </p>
+      </div>
+    </section>
+
+    <!-- 01: 客製化訂單管理 -->
+    <section id="order-management" class="py-20 border-t border-gray-100">
+      <div class="flex justify-between items-center mb-10">
+        <h2 class="text-sm uppercase tracking-[0.2em] text-accent font-bold">01 / Order Management 客製化訂單管理</h2>
+        <button @click="toggleAll" class="text-[10px] uppercase tracking-wider font-bold px-3 py-1.5 rounded border border-gray-200 hover:border-accent hover:text-accent transition-all bg-white shadow-sm">
+          {{ isAllOpen ? 'Close Details' : 'Open Details' }}
+        </button>
+      </div>
+
+      <div class="space-y-12">
+        <div class="relative pl-8 border-l border-gray-100">
+          <div class="absolute w-2 h-2 bg-accent rounded-full -left-[4.5px] top-2.5"></div>
+          
+          <div class="space-y-4">
+            <details v-for="(item, index) in content.orderManagement" :key="index" class="group border-b border-gray-50 pb-4" :open="isAllOpen">
+              <summary class="flex items-center text-lg font-semibold text-title hover:text-accent transition-colors">
+                <span class="mr-3 transform group-open:rotate-90 transition-transform text-accent/50 text-xs">▶</span>
+                {{ item.label }}
+              </summary>
+              <div class="mt-3 pl-7 text-md text-gray-500 leading-relaxed">
+                {{ item.content }}
+              </div>
+            </details>
+          </div>
+
+          <!-- 常見問題區塊 -->
+          <div class="mt-10 p-6 bg-accent/5 rounded-2xl border border-accent/10 italic">
+            <p class="text-sm leading-relaxed text-text/90">
+              <span class="font-bold text-accent not-italic">常見問題：</span>
+              客戶時常會要求一些客製化的產品，這邊需要清楚了解客人的使用場景及用途，尋找是否有其他現有產品可以滿足客人需求，若是沒有會再進一步進行效益評估。
+            </p>
+          </div>
+
+          <!-- Case Study Grid -->
+          <div class="grid md:grid-cols-2 gap-6 mt-12">
+            <div class="bg-white border border-gray-100 rounded-2xl p-6 shadow-sm hover:shadow-md transition-shadow">
+              <div class="flex justify-between items-center mb-4">
+                <h4 class="font-bold text-title">案例1: Short Pole 底座</h4>
+                <span class="text-[10px] px-2 py-1 bg-green-50 text-green-600 font-bold rounded">SUCCESS</span>
+              </div>
+              <p class="text-sm text-muted leading-relaxed">評估後將相似需求整合，透過小幅修改完成客製化，最終成功納入標準品，降低維護成本並擴大應用範圍。</p>
+            </div>
+            <div class="bg-white border border-gray-100 rounded-2xl p-6 shadow-sm hover:shadow-md transition-shadow">
+              <div class="flex justify-between items-center mb-4">
+                <h4 class="font-bold text-title">案例2: 2m Cable 線材</h4>
+                <span class="text-[10px] px-2 py-1 bg-red-50 text-red-500 font-bold rounded">NOT EXECUTED</span>
+              </div>
+              <p class="text-sm text-muted leading-relaxed">客人要求2m的線，經測試發現超出技術可行性之範圍，同時提供其他替代方案予客戶。</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 02: 基本作業與優化 -->
+    <section id="operations" class="py-20 border-t border-gray-100">
+      <h2 class="text-sm uppercase tracking-[0.2em] text-accent font-bold mb-10">02 / Operations 基本作業與優化</h2>
+      <div class="grid md:grid-cols-3 gap-8">
+        <div v-for="op in content.operations" class="group">
+          <h5 class="font-bold text-title mb-3 group-hover:text-accent transition-colors">{{ op.title }}</h5>
+          <p class="text-sm leading-relaxed text-muted">{{ op.desc }}</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 03: 新產品導入 -->
+    <section id="npi" class="py-20 border-t border-gray-100">
+      <div class="flex justify-between items-center mb-10">
+        <div class="relative pl-8 border-l border-gray-100">
+          <div class="absolute w-2 h-2 bg-accent rounded-full -left-[4.5px] top-2.5"></div>
+
+            <div class="flex justify-between items-center mb-10">
+                <h2 class="text-sm uppercase tracking-[0.2em] text-accent font-bold">03 / NPI Project 新產品導入</h2>
+                <button @click="toggleAll" class="text-[10px] uppercase tracking-wider font-bold px-3 py-1.5 rounded border border-gray-200 hover:border-accent hover:text-accent transition-all bg-white shadow-sm">
+                {{ isAllOpen ? 'Close Details' : 'Open Details' }}
+                </button>
+            </div>
+
+          <!-- NPI 職責 (收合設計，比照訂單管理邏輯) -->
+          <div class="space-y-4">
+            <details v-for="(item, index) in content.npiDetails" :key="index" class="group border-b border-gray-50 pb-4" :open="isAllOpen">
+              <summary class="flex items-center text-lg font-semibold text-title hover:text-accent transition-colors">
+                <span class="mr-3 transform group-open:rotate-90 transition-transform text-accent/50 text-xs">▶</span>
+                {{ item.label }}
+              </summary>
+              <div class="mt-3 pl-7 text-md text-gray-500 leading-relaxed">
+                {{ item.content }}
+              </div>
+            </details>
+          </div>
+
+          <!-- NPI 說明區塊 -->
+          <div class="mt-10 p-6 bg-accent/5 rounded-2xl border border-accent/10 italic">
+            <p class="text-sm leading-relaxed text-text/90">
+              <span class="font-bold text-accent not-italic">說明：</span>
+              新產品專案執行時，需要規劃任務時程，並評估可能的風險。
+            </p>
+          </div>
+                
+          <!-- 案例展示卡片 -->
+          <div class="grid md:grid-cols-2 gap-6 mt-12">
+            <div class="bg-white border border-gray-100 rounded-2xl p-6 shadow-sm hover:shadow-md transition-shadow">
+              <h4 class="font-bold text-title mb-3 flex items-center">
+                <span class="w-1.5 h-1.5 bg-accent rounded-full mr-2"></span>
+                案例 1
+              </h4>
+              <p class="text-sm text-muted leading-relaxed">
+                尋找周邊商品（scanner）模組的second source 供應商，欲找到更符合我們需求的模組，同時也能提升議價能力。
+              </p>
+            </div>
+            <div class="bg-white border border-gray-100 rounded-2xl p-6 shadow-sm hover:shadow-md transition-shadow">
+              <h4 class="font-bold text-title mb-3 flex items-center">
+                <span class="w-1.5 h-1.5 bg-accent rounded-full mr-2"></span>
+                案例 2
+              </h4>
+              <p class="text-sm text-muted leading-relaxed">
+                在 Pilot Run 時發現因機構件設計的問題，導致 EMI (電磁干擾) ＆ ESD (靜電放電) 未通過規定標準。
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- Skills -->
+    <section id="skills" class="py-20 border-t border-gray-100">
+      <h2 class="text-sm uppercase tracking-[0.2em] text-accent font-bold mb-10 text-center">Skills Applied / 使用技能</h2>
+      <div class="flex flex-wrap justify-center gap-3">
+        <span v-for="skill in content.skills"
+              class="skill-tag px-6 py-3 rounded-full text-sm font-medium border border-gray-200 bg-white text-gray-600 cursor-default shadow-sm">
+          {{ skill }}
+        </span>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-20 border-t border-gray-100 text-center">
+      <p class="text-muted text-[10px] tracking-[0.3em] uppercase font-bold">
+        © 2026 Product Specialist Portfolio | Excellence in Execution
+      </p>
+    </footer>
+  </main>
+</div>
+
+<script>
+const portfolioData = {
+  orderManagement: [
+    { label: "產品規格溝通與需求釐清", content: "作為業務、客戶與研發（R&D）之間的溝通橋樑，深入理解客戶實際需求，提供合適的產品方案與建議。" },
+    { label: "成本效益評估", content: "評估產品之技術與成本效益，決定是否要執行該產品專案，確保執行效益。" },
+    { label: "技術及問題支援", content: "掌握相關產品之規格，當客人對產品有疑問時給予支援。" }
+  ],
+  operations: [
+    { title: "BOM 結構優化", desc: "重整 BOM 架構，降低物料複雜度，簡化倉儲管理流程與成本。" },
+    { title: "市場競品分析", desc: "分析對手規格與定價趨勢，整理產品優劣勢，支援業務端銷售與產品定位。" },
+    { title: "規格文件維護", desc: "整理並維護產品規格書、技術文件與對外說明資料，確保資訊正確與一致。" }
+  ],
+  npiDetails: [
+    { label: "供應商開發與評估", content: "尋找並評估不同供應商，提升供應鏈彈性與成本競爭力。" },
+    { label: "Pilot Run / Test Run 支援", content: "協助新產品試產與測試流程，確保產品符合設計與品質要求。" },
+    { label: "協助問題處理", content: "協助跨部門進行問題釐清與改善追蹤，讓專案可以順利執行。" },
+    { label: "物料協調", content: "協助物料準備、異常處理與生產溝通，確保專案順利推進。" }
+  ],
+  skills: [
+     "Project Management", "Cross-functional Communication", 
+     "Market Analysis", "Product Requirement Analysis"
+  ]
+}
+
+const { createApp, ref } = Vue
+createApp({
+  setup() {
+    const isAllOpen = ref(false);
+    const toggleAll = () => {
+      isAllOpen.value = !isAllOpen.value;
+    };
+    return { 
+      content: portfolioData,
+      isAllOpen,
+      toggleAll
+    }
+  }
+}).mount("#app")
+</script>
+
+</body>
+</html>
