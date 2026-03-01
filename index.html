@@ -48,8 +48,7 @@
       border-color: #C08A8A; 
       transform: translateY(-2px);
     }
-
-    /* 【修改處 1】：新增下拉選單專用樣式優化與旋轉動畫 */
+    
     details summary {
       list-style: none; /* 隱藏原生箭頭 */
       cursor: pointer;
@@ -87,7 +86,7 @@
       <div class="relative w-48 h-48 flex-shrink-0">
         <div class="absolute inset-0 bg-accent rounded-full -rotate-6 opacity-20"></div>
         <img 
-          src="./image/IMG_4043.JPG" 
+          src="IMG_4043.JPG" 
           alt="WangYi Chen"
           class="relative w-full h-full object-cover rounded-full border-4 border-white shadow-lg"
           onerror="this.src='https://via.placeholder.com/200?text=Profile+Photo'"
@@ -134,8 +133,7 @@
     <section id="experience" class="py-20 border-t border-gray-100">
       <div class="flex justify-between items-center mb-10">
         <h2 class="text-sm uppercase tracking-[0.2em] text-accent font-bold">Experience / 經歷</h2>
-        
-        <!-- 【修改處 2】：新增一鍵展開/收合按鈕 -->
+      
         <button 
           @click="toggleAll" 
           class="text-xs font-medium px-3 py-1.5 rounded-md border border-gray-200 hover:border-accent hover:text-accent transition-all bg-white shadow-sm"
@@ -163,7 +161,6 @@
           <p class="text-md text-muted font-medium mb-4">{{ exp.company }}</p>
           
           <div class="space-y-3">
-            <!-- 【修改處 3】：使用 :open 指令與 isAllOpen 狀態連動 -->
             <details 
               v-for="item in exp.details" 
               class="group border-b border-gray-50 pb-2"
@@ -186,10 +183,18 @@
     <section id="skills" class="py-20 border-t border-gray-100">
       <h2 class="text-sm uppercase tracking-[0.2em] text-accent font-bold mb-8">Core Competencies / 核心技能</h2>
       <div class="flex flex-wrap gap-3">
-        <span v-for="skill in profile.skills"
-              class="skill-tag px-5 py-2 rounded-full text-sm border border-gray-200 bg-white text-gray-600 cursor-default">
-          {{ skill }}
-        </span>
+        <template v-for="skill in profile.skills">
+          <a v-if="skill.link" 
+             :href="skill.link" 
+             target="_blank"
+             class="skill-tag px-5 py-2 rounded-full text-sm border border-accent bg-white text-accent hover:text-white cursor-pointer font-medium">
+            {{ skill.name }}
+          </a>
+          <span v-else
+                class="skill-tag px-5 py-2 rounded-full text-sm border border-gray-200 bg-white text-gray-600 cursor-default">
+            {{ skill.name }}
+          </span>
+        </template>
       </div>
     </section>
 
@@ -210,7 +215,7 @@ const profileData = {
   name: "Wang Yi Chen",
   role: `• 語言能力：TOEIC 800，擅長中英文簡報
 • 電子產業PM：跨部門整合與溝通
-• 跨領域背景：兼具商管與電類相關專業`,
+• 跨領域背景：商管與電類雙專業`,
   location: "New Taipei City, Taiwan",
   years: 1, 
   email: "iocm1863@gmail.com",
@@ -272,9 +277,19 @@ const profileData = {
     }
   ],
   skills: [
-     "Python", "Machine Learning",  "Deep Learning",
-     "Verilog ", "MATLAB", "SQL", "Project Management", 
-     "Google Analytics", "Cross-functional Communication"
+     { name: "Python", link: null },
+     { name: "Machine Learning 🔗", link: "./skill檔案/機器學習期末報告.pdf"},
+     { name: "Deep Learning 🔗", link: "./skill檔案/深度學習期末報告.pdf" }, 
+     { name: "Verilog", link: null },
+     { name: "MATLAB", link: null },
+     { name: "電子學實驗🔗", link: "./skill檔案/電子學實驗紀錄示範.pdf" },
+     { name: "雷射 🔗", link: "./skill檔案/專題簡報1128.pdf" }, 
+     { name: "光學 🔗", link: "./skill檔案/光學期末報告.pdf" }, 
+     { name: "半導體物理與元件模擬圖 🔗", link: "./skill檔案/半導體物理與元件模擬.pdf" }, 
+     { name: "SQL 🔗", link: "./skill檔案/清交響樂_第三組期末報告-0520.docx.pdf" },
+     { name: "Project Management", link: null },
+     { name: "Google Analytics", link: null },
+     { name: "Cross-functional Communication", link: null }
   ]
 }
 
